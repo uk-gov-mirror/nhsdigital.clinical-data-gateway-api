@@ -14,5 +14,7 @@
     "ms-python.debugpy",
     "ms-python.vscode-python-envs"
   ],
-  "unwantedRecommendations": []
+  "unwantedRecommendations": [
+    "ms-vscode.notepadplusplus-keybindings"
+  ]
 }
