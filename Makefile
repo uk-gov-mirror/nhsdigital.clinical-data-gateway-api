@@ -70,7 +70,7 @@ env: clean
 		podman build --build-arg PYTHON_VERSION=${PYTHON_VERSION} --build-arg INCLUDE_DEV_CERTS=true --build-arg DEV_CERT_FILENAME=${DEV_CERT_FILENAME} -t gateway-api-build-container infrastructure/images/build-container; \
 	fi
 	@echo "Starting Build Container..."
-	@podman run -v /var/run/docker.sock:/var/run/docker.sock --mount type=bind,src=$(PWD),dest=/git --security-opt label=disable -d --name=gateway-api-build-container gateway-api-build-container
+	@podman run -v /var/run/docker.sock:/var/run/docker.sock -v $(SSH_AUTH_SOCK):/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent --mount type=bind,src=$(PWD),dest=/git --security-opt label=disable -d --name=gateway-api-build-container gateway-api-build-container -it bash
 
 	make dependencies
 
