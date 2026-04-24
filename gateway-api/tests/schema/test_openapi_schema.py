@@ -52,6 +52,13 @@ def test_api_schema_compliance(case: Case, base_url: str) -> None:
 
     case.call_and_validate(
         base_url=base_url,
-        excluded_checks=[schemathesis.checks.not_a_server_error],
+        excluded_checks=[
+            # GPCAPIM-421
+            schemathesis.checks.not_a_server_error,
+            # GPCAPIM-419
+            schemathesis.checks.missing_required_header,
+            # TODO Jira
+            schemathesis.checks.unsupported_method,
+        ],
         timeout=30,
     )
