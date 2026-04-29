@@ -1,5 +1,11 @@
 from dataclasses import dataclass
-from http.client import BAD_GATEWAY, BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND
+from http.client import (
+    BAD_GATEWAY,
+    BAD_REQUEST,
+    INTERNAL_SERVER_ERROR,
+    NOT_FOUND,
+    UNSUPPORTED_MEDIA_TYPE,
+)
 
 from fhir.stu3 import Issue, IssueCode, IssueSeverity, OperationOutcome
 
@@ -114,3 +120,10 @@ class UnexpectedError(AbstractCDGError):
     status_code = INTERNAL_SERVER_ERROR
     severity = IssueSeverity.ERROR
     error_code = IssueCode.EXCEPTION
+
+
+class UnsupportedMediaTypeError(AbstractCDGError):
+    _message = "Unsupported Media Type"
+    status_code = UNSUPPORTED_MEDIA_TYPE
+    severity = IssueSeverity.ERROR
+    error_code = IssueCode.INVALID

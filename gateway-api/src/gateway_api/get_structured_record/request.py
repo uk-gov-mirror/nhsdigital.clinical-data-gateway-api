@@ -10,7 +10,10 @@ from werkzeug.exceptions import BadRequest
 from gateway_api.common.error import (
     InvalidRequestJSONError,
     MissingOrEmptyHeaderError,
+    UnsupportedMediaTypeError,
 )
+
+ACCEPTED_CONTENT_TYPE = "application/fhir+json"
 
 # Access record structured interaction ID from
 # https://developer.nhs.uk/apis/gpconnect/accessrecord_structured_development.html#spine-interactions
@@ -32,6 +35,7 @@ class GetStructuredRecordRequest:
     def __init__(self, request: Request) -> None:
         self._http_request = request
         self._headers = CaseInsensitiveDict(request.headers)
+        self._validate_content_type()
         try:
             self.parameters = Parameters.model_validate(request.get_json())
         except (BadRequest, ValidationError) as error:
@@ -40,6 +44,13 @@ class GetStructuredRecordRequest:
         self._status_code: int | None = None
 
         self._validate_headers()
+
+    def _validate_content_type(self) -> None:
+        content_type = self._headers.get("Content-Type")
+        if content_type is None:
+            return  # if not provided, that's not invalid
+        if content_type.split(";")[0].strip().lower() != ACCEPTED_CONTENT_TYPE:
+            raise UnsupportedMediaTypeError()
 
     @property
     def trace_id(self) -> str:
