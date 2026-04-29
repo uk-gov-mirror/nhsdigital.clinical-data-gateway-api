@@ -37,7 +37,7 @@ class GetStructuredRecordRequest:
         self._headers = CaseInsensitiveDict(request.headers)
         self._validate_content_type()
         try:
-            self.parameters = Parameters.model_validate(request.get_json())
+            self.parameters = Parameters.model_validate(request.get_json(silent=True))
         except (BadRequest, ValidationError) as error:
             raise InvalidRequestJSONError() from error
 

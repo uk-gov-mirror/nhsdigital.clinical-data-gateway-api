@@ -116,7 +116,7 @@ class JWTValidationError(AbstractCDGError):
 
 
 class UnexpectedError(AbstractCDGError):
-    _message = "Internal Server Error: {traceback}"
+    _message = "Internal Server Error"
     status_code = INTERNAL_SERVER_ERROR
     severity = IssueSeverity.ERROR
     error_code = IssueCode.EXCEPTION

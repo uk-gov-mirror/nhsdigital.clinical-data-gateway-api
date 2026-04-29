@@ -239,7 +239,7 @@ paths:
                           type: string
                           example: "Patient not found"
         '415':
-          description: Unsupported Media Type"
+          description: Unsupported Media Type - Content-Type header must be "application/fhir+json"
           content:
             application/fhir+json:
               schema:
