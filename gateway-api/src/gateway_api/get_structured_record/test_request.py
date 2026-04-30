@@ -125,6 +125,7 @@ class TestGetStructuredRecordRequest:
     ) -> None:
         """Test that a missing Content-Type header does not raise an error."""
         headers = {
+            "Content-Type": "",
             "Ssp-TraceID": "test-trace-id",
             "ODS-from": "test-ods",
         }

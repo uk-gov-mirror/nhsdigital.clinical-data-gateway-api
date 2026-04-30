@@ -37,7 +37,9 @@ class GetStructuredRecordRequest:
         self._headers = CaseInsensitiveDict(request.headers)
         self._validate_content_type()
         try:
-            self.parameters = Parameters.model_validate(request.get_json(silent=True))
+            self.parameters = Parameters.model_validate(
+                request.get_json(silent=True, force=True)
+            )
         except (BadRequest, ValidationError) as error:
             raise InvalidRequestJSONError() from error
 
@@ -47,8 +49,9 @@ class GetStructuredRecordRequest:
 
     def _validate_content_type(self) -> None:
         content_type = self._headers.get("Content-Type")
+        print(f"DEBUG content_type={content_type!r} headers={dict(self._headers)}")
         if content_type is None:
-            return  # if not provided, that's not invalid
+            return
         if content_type.split(";")[0].strip().lower() != ACCEPTED_CONTENT_TYPE:
             raise UnsupportedMediaTypeError()
 
